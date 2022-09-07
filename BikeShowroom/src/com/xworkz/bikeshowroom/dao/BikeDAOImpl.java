@@ -1,6 +1,7 @@
 package com.xworkz.bikeshowroom.dao;
 
 import com.xworkz.bikeshowroom.dto.BikeDTO;
+import com.xworkz.bikeshowroom.exception.ArrayFullExp;
 
 public class BikeDAOImpl implements BikeDAO {
 
@@ -22,11 +23,11 @@ public class BikeDAOImpl implements BikeDAO {
 		if (this.counter < this.dtos.length) {
 			this.dtos[counter] = bikeDTO;
 			System.out.println("The Bike is stored at index " + this.counter);
+			System.out.println(this.dtos[this.counter].getGstNo());
 			this.counter++;
 			return true;
 		} else {
-			System.out.println("The bike cannot be stored as array is full");
-			return false;
+			throw new ArrayFullExp("Array is full cannot add");
 		}
 	}
 
@@ -73,12 +74,14 @@ public class BikeDAOImpl implements BikeDAO {
 			return null;
 		}
 		for (int i = 0; i < this.dtos.length; i++) {
-			if (this.dtos[i] != null && this.dtos[i].getScooterDTO().equals(cc)) {
+		
+			if (this.dtos[i] != null && this.dtos[i].getScooterDTO().getCc()==cc) {
+				System.out.println(this.dtos[i].getScooterDTO().getCc());
 				System.out.println("CC is found at index " + i);
 				return this.dtos[i];
 			}
 		}
-		System.out.println("Location not found");
+		System.out.println("CC not found");
 		return null;
 	}
 
@@ -90,12 +93,12 @@ public class BikeDAOImpl implements BikeDAO {
 			return null;
 		}
 		for (int i = 0; i < this.dtos.length; i++) {
-			if (this.dtos[i] != null && this.dtos[i].getScooterDTO().equals(color)) {
+			if (this.dtos[i] != null && this.dtos[i].getScooterDTO().getColor().equals(color)) {
 				System.out.println("Location is found at index " + i);
 				return this.dtos[i];
 			}
 		}
-		System.out.println("Color not found");
+		System.out.println("location not found");
 		return null;
 	}
 
@@ -107,8 +110,8 @@ public class BikeDAOImpl implements BikeDAO {
 			return null;
 		}
 		for (int i = 0; i < this.dtos.length; i++) {
-			if (this.dtos[i] != null && this.dtos[i].getScooterDTO().equals(color)
-					&& this.dtos[i].getScooterDTO().equals(company)) {
+			if (this.dtos[i] != null && this.dtos[i].getScooterDTO().getColor().equals(color)
+					&& this.dtos[i].getScooterDTO().getCompany().equals(company)) {
 				System.out.println("Bike is found at index " + i);
 				return this.dtos[i];
 			}
@@ -126,8 +129,8 @@ public class BikeDAOImpl implements BikeDAO {
 			return null;
 		}
 		for (int i = 0; i < this.dtos.length; i++) {
-			if (this.dtos[i] != null && this.dtos[i].getScooterDTO().equals(mileage)
-					&& this.dtos[i].getScooterDTO().equals(weight)) {
+			if (this.dtos[i] != null && this.dtos[i].getScooterDTO().getSportsBikeDTO().getMileage().equals(mileage)
+					&& this.dtos[i].getScooterDTO().getSportsBikeDTO().getWeight().equals(weight)) {
 				System.out.println("Bike1 is found at index " + i);
 				return this.dtos[i];
 			}
@@ -145,7 +148,7 @@ public class BikeDAOImpl implements BikeDAO {
 			return null;
 		}
 		for (int i = 0; i < this.dtos.length; i++) {
-			if (this.dtos[i] != null && this.dtos[i].getScooterDTO().equals(company)) {
+			if (this.dtos[i] != null && this.dtos[i].getScooterDTO().getCompany().equals(company)) {
 				this.dtos[i] = null;
 				System.out.println("DTO is deleted at index " + i);
 				return this.dtos[i];
@@ -153,6 +156,42 @@ public class BikeDAOImpl implements BikeDAO {
 		}
 		System.out.println("Not found");
 		return null;
+	}
+
+	@Override
+	public boolean findDuplicate(BikeDTO bikeDTO) {
+		if (bikeDTO != null) {
+			for (int i = 0; i < this.dtos.length; i++) {
+				if (this.dtos[i] != null && this.dtos[i].equals(bikeDTO)) {
+					return true;
+				}
+			}
+		}
+		return false;
+
+	}
+
+	@Override
+	public void display() {
+		for(int i=0;i<this.dtos.length;i++)
+		{
+			if(this.dtos[i]!=null)
+			{System.out.println("-----------------------------------------------");
+				System.out.println(this.dtos[i].getGstNo());
+				System.out.println(this.dtos[i].getLocation());
+				System.out.println(this.dtos[i].getName());
+				System.out.println(this.dtos[i].getPhno());
+				System.out.println(this.dtos[i].getScooterDTO().getCc());
+				System.out.println(this.dtos[i].getScooterDTO().getColor());
+				System.out.println(this.dtos[i].getScooterDTO().getCompany());
+				System.out.println(this.dtos[i].getScooterDTO().getSportsBikeDTO().getCc());
+				System.out.println(this.dtos[i].getScooterDTO().getSportsBikeDTO().getCompany());
+				System.out.println(this.dtos[i].getScooterDTO().getSportsBikeDTO().getPrice());
+				System.out.println(this.dtos[i].getScooterDTO().getSportsBikeDTO().getMileage());
+				System.out.println(this.dtos[i].getScooterDTO().getSportsBikeDTO().getWeight());
+			}
+		}
+		
 	}
 
 }

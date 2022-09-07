@@ -19,5 +19,9 @@ public interface BikeDAO {
 	public abstract BikeDTO findByMileageandWeight(String mileage, String weight);
 	
 	public abstract BikeDTO deleteByCompany (String company);
+	
+	public abstract boolean findDuplicate(BikeDTO bikeDTO);
+	
+	public abstract void display();
 
 }
